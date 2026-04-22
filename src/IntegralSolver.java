@@ -4,16 +4,26 @@ public class IntegralSolver {
     //computes def. integral
     public String definiteIntegral(double lowerBound, double upperBound, String contents, String type)
     {
-        //if bounds are equal
+        double c = 1;
+        double k = 1;
+        
+        //EQUAL BOUNDS
         if(lowerBound == upperBound)
         {
             return "Output: 0";
         }
-        //computing integral based on type
-        if(type.equals("exponential")){}
-        if(type.equals("trig-based")){}
-        if(type.equals("logarithmic")){}
-        if(type.equals("polynomial")){}
+
+        //CONSTANT INTEGRATION
+        if(type.toLowerCase().equals("c")){
+            double numConstant = Double.parseDouble(contents);
+            double constantSum = numConstant*upperBound - numConstant*lowerBound;
+            return "Output: " + constantSum;
+        }
+        
+        if(type.toLowerCase().equals("e")){}
+        if(type.toLowerCase().equals("t")){}
+        if(type.toLowerCase().equals("l")){}
+        if(type.toLowerCase().equals("p")){}
     
         return "Output: ";
     }
@@ -26,22 +36,19 @@ public class IntegralSolver {
         
         contents = contents.replace(" ", "");
         
-        //EXPONENTIAL
-        if(type.equals("exponential")){
+        //EXPONENTIAL CALCULATION
+        if(type.toLowerCase().equals("e")){
             
-            //check for e^x
+            //CHECK FOR e^x
             if(contents.equals("e^x")){return "Output: e^x + C";}
-            //general case
+            //GENERAL CASE
             if(contents.matches("[-]?\\d*\\.?\\d*e\\^\\([-]?\\d*\\.?\\d*x\\)")){
-        
-        int eIndex = contents.indexOf("e");
-
-        //extract coefficient (c)
-        if(eIndex > 0){
-            String coeffStr = contents.substring(0, eIndex);
-
-            if(coeffStr.equals("-")) c = -1;
-            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+                int eIndex = contents.indexOf("e");
+                //extract outer coefficient (c)
+                if(eIndex > 0){
+                String coeffStr = contents.substring(0, eIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
         }
 
         //extract k (inside exponent)
@@ -57,21 +64,56 @@ public class IntegralSolver {
         double newCoeff = c / k;
         return "Output: " + newCoeff + "e^(" + k + "x) + C";
     }
-        return "Output: Unsupported function.";
+        
         }
 
+        //CONSTANT CALCULATION
+        if(type.toLowerCase().equals("c")){
+            return "Output: " + contents + "x + C";     
+        }
 
+        //TRIG BASED CALCULATION
 
+        if(type.toLowerCase().equals("t")){
+        }
 
+        //LOGARITHMIC CALCULATION
 
+        if(type.toLowerCase().equals("l")){
+            
+            if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
+            int lIndex = contents.indexOf("l");
+            //extract outer coefficient (c)
+            if(lIndex > 0)
+                {
+                    String coeffStr = contents.substring(0,lIndex);
+                    if(coeffStr.equals("-")) c =-1;
+                    else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
 
-        if(type.equals("trig-based")){}
-        if(type.equals("logarithmic")){}
-        if(type.equals("polynomial")){}
+                }
+            //extract inner coefficent (k)
+            int start = contents.indexOf("(") + 1;
+            int end = contents.indexOf("x");
+            String kString = contents.substring(start,end);
+            if(kString.equals("")|| kString.equals("+")) k = 1;
+            else if(kString.equals("-")) k = -1;
+            else k = Double.parseDouble(kString);
+            
+            //RETURN
+            return "Output: " + c + "xln(" + k + ") - " + c + "x + C"; 
+            }
+            if(contents.equals("ln(x)")){return "Output: xln(x) - x + C";}
+            return "Output: Unsupported Logarithmic Input.";
+        }
 
-        return "penis";
+        //POLYNOMIAL CALCULATION
+
+        if(type.toLowerCase().equals("p")){
+        }
+
+        return "Invalid. Please try again.";
     }
-    //main method       
+    //MAIN       
     public static void main(String[] args) throws Exception {
     
     Scanner scan = new Scanner(System.in);
@@ -82,9 +124,9 @@ public class IntegralSolver {
     //prints results of the definite integral
     if(deforIndef.toLowerCase().equals("y"))
     {
-        System.out.print("Is your equation Exponential, Trig-based, Logarithmic, or a Polynomial?: ");
+        System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
-        if(!type.toLowerCase().equals("exponential")&&!type.toLowerCase().equals("trig-based")&&!type.toLowerCase().equals("logarithmic")&&!type.toLowerCase().equals("polynomial"))
+        if(!type.toLowerCase().equals("e")&&!type.toLowerCase().equals("t")&&!type.toLowerCase().equals("l")&&!type.toLowerCase().equals("p")&&!type.toLowerCase().equals("c"))
         {
             System.out.println("Sorry! That's invalid! Please try again.");
         }
@@ -109,9 +151,9 @@ public class IntegralSolver {
     //prints the results of the indefinite integral
     if(deforIndef.toLowerCase().equals("n"))
     {
-        System.out.print("Is your equation Exponential, Trig-based, Logarithmic, or a Polynomial?: ");
+        System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
-        if(!type.toLowerCase().equals("exponential")&&!type.toLowerCase().equals("trig-based")&&!type.toLowerCase().equals("logarithmic")&&!type.toLowerCase().equals("polynomial"))
+        if(!type.toLowerCase().equals("e")&&!type.toLowerCase().equals("t")&&!type.toLowerCase().equals("l")&&!type.toLowerCase().equals("p")&&!type.toLowerCase().equals("c"))
         {
             System.out.println("Sorry! That's invalid! Please try again.");
         }
