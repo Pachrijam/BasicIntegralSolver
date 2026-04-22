@@ -30,9 +30,10 @@ public class IntegralSolver {
     //computes indef. integral
     public String indefiniteIntegral(String contents, String type)
     {
-        //initialized constant variables
+        //INITIALIZED CONSTANT VARIABLES
         double c = 1.0;
         double k = 1.0;
+        int n = 1;
         
         contents = contents.replace(" ", "");
         
@@ -43,15 +44,15 @@ public class IntegralSolver {
             if(contents.equals("e^x")){return "Output: e^x + C";}
             //GENERAL CASE
             if(contents.matches("[-]?\\d*\\.?\\d*e\\^\\([-]?\\d*\\.?\\d*x\\)")){
-                int eIndex = contents.indexOf("e");
-                //extract outer coefficient (c)
-                if(eIndex > 0){
-                String coeffStr = contents.substring(0, eIndex);
-                if(coeffStr.equals("-")) c = -1;
-                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            int eIndex = contents.indexOf("e");
+            //EXTRACT OUTER COEFFICIENT (C)
+            if(eIndex > 0){
+            String coeffStr = contents.substring(0, eIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
         }
 
-        //extract k (inside exponent)
+        //EXTRACT INNER COEFFICIENT (K)
         int start = contents.indexOf("(") + 1;
         int end = contents.indexOf("x");
 
@@ -83,15 +84,14 @@ public class IntegralSolver {
             
             if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
             int lIndex = contents.indexOf("l");
-            //extract outer coefficient (c)
+            //EXTRACT OUTER COEFFICIENT (C)
             if(lIndex > 0)
                 {
-                    String coeffStr = contents.substring(0,lIndex);
-                    if(coeffStr.equals("-")) c =-1;
-                    else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
-
+                String coeffStr = contents.substring(0,lIndex);
+                if(coeffStr.equals("-")) c =-1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
                 }
-            //extract inner coefficent (k)
+            //EXTRACT INNER COEFFICIENT (K)
             int start = contents.indexOf("(") + 1;
             int end = contents.indexOf("x");
             String kString = contents.substring(start,end);
@@ -103,12 +103,41 @@ public class IntegralSolver {
             return "Output: " + c + "xln(" + k + ") - " + c + "x + C"; 
             }
             if(contents.equals("ln(x)")){return "Output: xln(x) - x + C";}
-            return "Output: Unsupported Logarithmic Input.";
+            return "Output: Unsupported logarithmic input.";
         }
 
         //POLYNOMIAL CALCULATION
 
         if(type.toLowerCase().equals("p")){
+        //SPECIAL CASE
+        if(contents.equals("x")){return "Output: (1/2)x^2 + C";}
+        //GENERAL CASE
+        if(contents.matches("[-]?\\d*\\.?\\d*x\\^\\([-]?\\d+\\)")){
+        int pIndex = contents.indexOf("x");
+        //EXTRACT OUTER COEFFICIENT (C)
+        if(pIndex > 0)
+            {
+            String coeffStr = contents.substring(0,pIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            }
+        //EXTRACT INNER COEFFICIENT
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf(")");
+
+        n = Integer.parseInt(contents.substring(start, end));
+        //POWER RULE
+        int newPower = n+1;
+        double newCoeff = c/newPower;
+
+        //RETURN
+        String coeffOut = (newCoeff == (int)newCoeff)
+                ? String.valueOf((int)newCoeff)
+                : String.valueOf(newCoeff);
+
+        return "Output: " + coeffOut + "x^" + newPower + " + C";
+        }
+        return "Output: Unsupported polynomial input.";
         }
 
         return "Invalid. Please try again.";
