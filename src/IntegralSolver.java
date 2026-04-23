@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class IntegralSolver {
-    //computes def. integral
+    //DEFINITE INTEGRAL CALCULATION
     public String definiteIntegral(double lowerBound, double upperBound, String contents, String type)
     {
         double c = 1;
@@ -27,7 +27,7 @@ public class IntegralSolver {
     
         return "Output: ";
     }
-    //computes indef. integral
+    //INDEFINITE INTEGRAL CALCULATION
     public String indefiniteIntegral(String contents, String type)
     {
         //INITIALIZED CONSTANT VARIABLES
@@ -76,18 +76,76 @@ public class IntegralSolver {
 
         //TRIG BASED CALCULATION
 
-        if(type.toLowerCase().equals("t")){
-            //CHECK FOR BASE FUNCTIONS 
-            if(contents.equals("cos(x)")){return "-sin(x) + C";}
-            if(contents.equals("sin(x)")){return "cos(x) + C";}
-            if(contents.equals("tan(x)")){return "sec^2(x) + C";}
-            if(contents.equals("sec(x)")){return "sec(x)tan(x) + C";}
-            if(contents.equals("csc(x)")){return "-csc(x)cot(x) + C";}
-            if(contents.equals("cot(x)")){return "-csc^2(x) + C";}
+        if(type.toLowerCase().equals("c")){
+    return "Output: " + contents + "x + C";     
+}
 
+// TRIG BASED CALCULATION
+if(type.toLowerCase().equals("t")){
 
+    //STANDARD TRIG FUNCTIONS
+    if(contents.equals("cos(x)")) return "sin(x) + C";
+    if(contents.equals("sin(x)")) return "-cos(x) + C";
+    if(contents.equals("tan(x)")) return "-ln|cos(x)| + C";
+
+    //GENERAL CASE: a*cos(kx)
+    if(contents.matches("[-]?\\d*\\.?\\d*cos\\([-]?\\d*\\.?\\d*x\\)")){
+        int cIndex = contents.indexOf("c");
+        //OUTER COEFFICIENT (c)
+        if(cIndex > 0){
+            String coeffStr = contents.substring(0, cIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
         }
+        //INNER COEFFICIENT (k)
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start, end);
+        if(kString.equals("") || kString.equals("+")) k = 1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+        //CHAIN RULE
+        return "Output: " + (c / k) + "sin(" + k + "x) + C";
+    }
 
+    //GENERAL CASE: a*sin(kx)
+    if(contents.matches("[-]?\\d*\\.?\\d*sin\\([-]?\\d*\\.?\\d*x\\)")){
+        int sIndex = contents.indexOf("s");
+        //OUTER COEFFICIENT (c)
+        if(sIndex > 0){
+            String coeffStr = contents.substring(0, sIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+        }
+        //INNER COEFFICIENT (k)
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start, end);
+        if(kString.equals("") || kString.equals("+")) k = 1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+        return "Output: " + (-c / k) + "cos(" + k + "x) + C";
+    }
+
+        // GENERAL CASE: a*tan(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*tan\\([-]?\\d*\\.?\\d*x\\)")){
+        int tIndex = contents.indexOf("t");
+        //OUTER COEFFICIENT (c)
+        if(tIndex > 0){
+            String coeffStr = contents.substring(0, tIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+        }
+        //INNER COEFFICIENT (k)
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start, end);
+        if(kString.equals("") || kString.equals("+")) k = 1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+        return "Output: " + (-c / k) + "ln|cos(" + k + "x)| + C";
+        }
+    }   
         //LOGARITHMIC CALCULATION
 
         if(type.toLowerCase().equals("l")){
@@ -108,7 +166,6 @@ public class IntegralSolver {
             if(kString.equals("")|| kString.equals("+")) k = 1;
             else if(kString.equals("-")) k = -1;
             else k = Double.parseDouble(kString);
-            
             //RETURN
             return "Output: " + c + "xln(" + k + ") - " + c + "x + C"; 
             }
@@ -135,12 +192,10 @@ public class IntegralSolver {
         //EXTRACT INNER COEFFICIENT
         int start = contents.indexOf("(") + 1;
         int end = contents.indexOf(")");
-
         n = Integer.parseInt(contents.substring(start, end));
         //POWER RULE
         int newPower = n+1;
         double newCoeff = c/newPower;
-
         //RETURN
         String coeffOut = (newCoeff == (int)newCoeff)
                 ? String.valueOf((int)newCoeff)
@@ -151,18 +206,15 @@ public class IntegralSolver {
         return "Output: Unsupported polynomial input.";
         }
 
-        return "Invalid. Please try again.";
+        return "Output: Invalid. Please try again.";
     }
     //MAIN       
     public static void main(String[] args) throws Exception {
-    
     Scanner scan = new Scanner(System.in);
-    System.out.print("Hello! Welcome to Integral Solver!\n----------------------------------------------------------------\nEnter \'Y\' for definite integral or \'N\' for indefinite integral: ");
+    System.out.print("Hello! Welcome to Integral Solver!\n----------------------------------------------------------------\nEnter \'D\' for definite integral or \'I\' for indefinite integral: ");
     String deforIndef = scan.nextLine();
-    
-
     //prints results of the definite integral
-    if(deforIndef.toLowerCase().equals("y"))
+    if(deforIndef.toLowerCase().equals("d"))
     {
         System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
@@ -187,9 +239,8 @@ public class IntegralSolver {
         }
         
     }
-
     //prints the results of the indefinite integral
-    if(deforIndef.toLowerCase().equals("n"))
+    if(deforIndef.toLowerCase().equals("i"))
     {
         System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
@@ -208,7 +259,7 @@ public class IntegralSolver {
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
     }
-    
+    else System.out.println("Sorry! That is invalid. Please try again.");
     scan.close();
     }
 }
