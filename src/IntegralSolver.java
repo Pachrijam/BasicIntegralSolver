@@ -33,6 +33,7 @@ public class IntegralSolver {
         //INITIALIZED CONSTANT VARIABLES
         double c = 1.0;
         double k = 1.0;
+        //N IS USED FOR POLYNOMIAL INTEGRATION
         int n = 1;
         
         contents = contents.replace(" ", "");
@@ -76,6 +77,15 @@ public class IntegralSolver {
         //TRIG BASED CALCULATION
 
         if(type.toLowerCase().equals("t")){
+            //CHECK FOR BASE FUNCTIONS 
+            if(contents.equals("cos(x)")){return "-sin(x) + C";}
+            if(contents.equals("sin(x)")){return "cos(x) + C";}
+            if(contents.equals("tan(x)")){return "sec^2(x) + C";}
+            if(contents.equals("sec(x)")){return "sec(x)tan(x) + C";}
+            if(contents.equals("csc(x)")){return "-csc(x)cot(x) + C";}
+            if(contents.equals("cot(x)")){return "-csc^2(x) + C";}
+
+
         }
 
         //LOGARITHMIC CALCULATION
@@ -109,8 +119,9 @@ public class IntegralSolver {
         //POLYNOMIAL CALCULATION
 
         if(type.toLowerCase().equals("p")){
-        //SPECIAL CASE
+        //CHECK FOR X, X^(-1)
         if(contents.equals("x")){return "Output: (1/2)x^2 + C";}
+        if(contents.equals("x^(-1)")){return "Output: ln|x| + C";}
         //GENERAL CASE
         if(contents.matches("[-]?\\d*\\.?\\d*x\\^\\([-]?\\d+\\)")){
         int pIndex = contents.indexOf("x");
