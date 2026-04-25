@@ -4,26 +4,26 @@ public class IntegralSolver {
     //DEFINITE INTEGRAL CALCULATION
     public String definiteIntegral(double lowerBound, double upperBound, String contents, String type)
     {
+        //INITIALIZED CONSTANT VARIABLES
         double c = 1;
         double k = 1;
+        //N IS USED FOR POLYNOMIAL INTEGRATION
+        int n = 1;
         
         //EQUAL BOUNDS
-        if(lowerBound == upperBound)
-        {
-            return "Output: 0";
-        }
-
+        if(lowerBound == upperBound){return "Output: 0";}
+        
         //CONSTANT INTEGRATION
-        if(type.toLowerCase().equals("c")){
+        else if(type.toLowerCase().equals("c")){
             double numConstant = Double.parseDouble(contents);
             double constantSum = numConstant*upperBound - numConstant*lowerBound;
             return "Output: " + constantSum;
         }
         
-        if(type.toLowerCase().equals("e")){}
-        if(type.toLowerCase().equals("t")){}
-        if(type.toLowerCase().equals("l")){}
-        if(type.toLowerCase().equals("p")){}
+        else if(type.toLowerCase().equals("e")){}
+        else if(type.toLowerCase().equals("t")){}
+        else if(type.toLowerCase().equals("l")){}
+        else if(type.toLowerCase().equals("p")){}
     
         return "Output: ";
     }
@@ -74,12 +74,6 @@ public class IntegralSolver {
             return "Output: " + contents + "x + C";     
         }
 
-        //TRIG BASED CALCULATION
-
-        if(type.toLowerCase().equals("c")){
-    return "Output: " + contents + "x + C";     
-}
-
 // TRIG BASED CALCULATION
 if(type.toLowerCase().equals("t")){
 
@@ -127,7 +121,7 @@ if(type.toLowerCase().equals("t")){
         return "Output: " + (-c / k) + "cos(" + k + "x) + C";
     }
 
-        // GENERAL CASE: a*tan(kx)
+        //GENERAL CASE: a*tan(kx)
         if(contents.matches("[-]?\\d*\\.?\\d*tan\\([-]?\\d*\\.?\\d*x\\)")){
         int tIndex = contents.indexOf("t");
         //OUTER COEFFICIENT (c)
