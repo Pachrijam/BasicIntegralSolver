@@ -7,25 +7,64 @@ public class IntegralSolver {
         //INITIALIZED CONSTANT VARIABLES
         double c = 1;
         double k = 1;
-        //N IS USED FOR POLYNOMIAL INTEGRATION
+        //N FOR POLYNOMIAL INTEGRATION
         int n = 1;
         
+        contents = contents.replace(" ", "");
+
         //EQUAL BOUNDS
         if(lowerBound == upperBound){return "Output: 0";}
         
-        //CONSTANT INTEGRATION
+        //CONSTANT CALCULATION
         else if(type.toLowerCase().equals("c")){
             double numConstant = Double.parseDouble(contents);
             double constantSum = numConstant*upperBound - numConstant*lowerBound;
             return "Output: " + constantSum;
         }
         
-        else if(type.toLowerCase().equals("e")){}
+        //EXPONENTIAL CALCULATION
+        else if(type.toLowerCase().equals("e")){
+            //GENERAL CASE
+            if(contents.matches("[-]?\\d*\\.?\\d*e\\^\\([-]?\\d*\\.?\\d*x\\)")){
+            int eIndex = contents.indexOf("e");
+            //EXTRACT OUTER COEFFICIENT (C)
+            if(eIndex > 0){
+            String coeffStr = contents.substring(0, eIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            else c = 1;
+        }
+            else c = 1;
+
+        //EXTRACT INNER COEFFICIENT (K)
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf("x");
+        String kStr = contents.substring(start, end);
+
+        if(kStr.equals("") || kStr.equals("+")) k = 1;
+        else if(kStr.equals("-")) k = -1;
+        else k = Double.parseDouble(kStr);
+
+        double newCoeff = c / k;
+        upperBound = newCoeff * Math.exp(k * upperBound);
+        lowerBound = newCoeff * Math.exp(k * lowerBound);
+        double result = upperBound - lowerBound;
+        //RETURN
+        return "Output: " + result;
+        }
+
+    }
+
+        //TRIG-BASED CALCULATION
         else if(type.toLowerCase().equals("t")){}
+
+        //LOGARITHMIC CALCULATION
         else if(type.toLowerCase().equals("l")){}
+
+        //POLYNOMIAL CALCULATION
         else if(type.toLowerCase().equals("p")){}
     
-        return "Output: ";
+        return "Output: Invalid. Please try again.";
     }
     //INDEFINITE INTEGRAL CALCULATION
     public String indefiniteIntegral(String contents, String type)
@@ -33,7 +72,7 @@ public class IntegralSolver {
         //INITIALIZED CONSTANT VARIABLES
         double c = 1.0;
         double k = 1.0;
-        //N IS USED FOR POLYNOMIAL INTEGRATION
+        //N FOR POLYNOMIAL INTEGRATION
         int n = 1;
         
         contents = contents.replace(" ", "");
@@ -65,17 +104,17 @@ public class IntegralSolver {
 
         double newCoeff = c / k;
         return "Output: " + newCoeff + "e^(" + k + "x) + C";
-    }
-        
         }
+
+    }
 
         //CONSTANT CALCULATION
         if(type.toLowerCase().equals("c")){
             return "Output: " + contents + "x + C";     
         }
 
-// TRIG BASED CALCULATION
-if(type.toLowerCase().equals("t")){
+        // TRIG BASED CALCULATION
+        if(type.toLowerCase().equals("t")){
 
     //STANDARD TRIG FUNCTIONS
     if(contents.equals("cos(x)")) return "sin(x) + C";
@@ -140,8 +179,8 @@ if(type.toLowerCase().equals("t")){
         return "Output: " + (-c / k) + "ln|cos(" + k + "x)| + C";
         }
     }   
+        
         //LOGARITHMIC CALCULATION
-
         if(type.toLowerCase().equals("l")){
             
             if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
@@ -168,7 +207,6 @@ if(type.toLowerCase().equals("t")){
         }
 
         //POLYNOMIAL CALCULATION
-
         if(type.toLowerCase().equals("p")){
         //CHECK FOR X, X^(-1)
         if(contents.equals("x")){return "Output: (1/2)x^2 + C";}
