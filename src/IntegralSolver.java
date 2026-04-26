@@ -16,14 +16,14 @@ public class IntegralSolver {
         if(lowerBound == upperBound){return "Output: 0";}
         
         //CONSTANT CALCULATION
-        else if(type.toLowerCase().equals("c")){
+        if(type.toLowerCase().equals("c")){
             double numConstant = Double.parseDouble(contents);
             double constantSum = numConstant*upperBound - numConstant*lowerBound;
             return "Output: " + constantSum;
         }
         
         //EXPONENTIAL CALCULATION
-        else if(type.toLowerCase().equals("e")){
+        if(type.toLowerCase().equals("e")){
             //GENERAL CASE
             if(contents.matches("[-]?\\d*\\.?\\d*e\\^\\([-]?\\d*\\.?\\d*x\\)")){
             int eIndex = contents.indexOf("e");
@@ -56,16 +56,57 @@ public class IntegralSolver {
     }
 
         //TRIG-BASED CALCULATION
-        else if(type.toLowerCase().equals("t")){}
+        if(type.toLowerCase().equals("t")){}
 
         //LOGARITHMIC CALCULATION
-        else if(type.toLowerCase().equals("l")){}
+        if(type.toLowerCase().equals("l")){}
 
         //POLYNOMIAL CALCULATION
-        else if(type.toLowerCase().equals("p")){}
-    
+        if(type.toLowerCase().equals("p")){
+
+        //CHECK FOR x
+        if(contents.equals("x")){
+        double upperVal = 0.5 * Math.pow(upperBound,2);
+        double lowerVal = 0.5 * Math.pow(lowerBound,2);
+        return "Output: " + (upperVal - lowerVal);
+        }
+
+        //CHECK FOR x^(-1)
+        if(contents.equals("x^(-1)")){
+        double upperVal = Math.log(Math.abs(upperBound));
+        double lowerVal = Math.log(Math.abs(lowerBound));
+        return "Output: " + (upperVal - lowerVal);
+    }
+
+        //GENERAL CASE
+        if(contents.matches("[-]?\\d*\\.?\\d*x\\^\\([-]?\\d+\\)")){
+
+        int pIndex = contents.indexOf("x");
+
+        if(pIndex > 0){
+            String coeffStr = contents.substring(0,pIndex);
+            if(coeffStr.equals("-")) c = -1;
+            else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+        }
+
+        int start = contents.indexOf("(") + 1;
+        int end = contents.indexOf(")");
+        n = Integer.parseInt(contents.substring(start, end));
+
+        int newPower = n + 1;
+        double newCoeff = c / newPower;
+
+        double upperVal = newCoeff * Math.pow(upperBound, newPower);
+        double lowerVal = newCoeff * Math.pow(lowerBound, newPower);
+
+        return "Output: " + (upperVal - lowerVal);
+    }
+        return "Output: Unsupported polynomial input.";
+    }    
+        
         return "Output: Invalid. Please try again.";
     }
+
     //INDEFINITE INTEGRAL CALCULATION
     public String indefiniteIntegral(String contents, String type)
     {
