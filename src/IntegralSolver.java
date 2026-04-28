@@ -310,6 +310,7 @@ public class IntegralSolver {
     }
     //MAIN       
     public static void main(String[] args) throws Exception {
+    
     Scanner scan = new Scanner(System.in);
     System.out.print("Hello! Welcome to Integral Solver!\n----------------------------------------------------------------\nEnter \'D\' for definite integral or \'I\' for indefinite integral: ");
     String deforIndef = scan.nextLine();
@@ -339,7 +340,7 @@ public class IntegralSolver {
         }
     }
     //prints the results of the indefinite integral
-    if(deforIndef.toLowerCase().equals("i"))
+    else if(deforIndef.toLowerCase().equals("i"))
     {
         System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
@@ -358,6 +359,7 @@ public class IntegralSolver {
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
     }
+    else{System.out.println("Sorry! That's invalid. Please try again.");}
     scan.close();
     }
 }
