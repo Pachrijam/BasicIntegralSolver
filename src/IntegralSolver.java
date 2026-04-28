@@ -15,7 +15,7 @@ public class IntegralSolver {
         //EQUAL BOUNDS
         if(lowerBound == upperBound){return "Output: 0";}
         
-        //CONSTANT CALCULATION
+        //CONSTANT CALCULATION 
         if(type.toLowerCase().equals("c")){
             double numConstant = Double.parseDouble(contents);
             double constantSum = numConstant*upperBound - numConstant*lowerBound;
@@ -59,7 +59,33 @@ public class IntegralSolver {
         if(type.toLowerCase().equals("t")){}
 
         //LOGARITHMIC CALCULATION
-        if(type.toLowerCase().equals("l")){}
+        if(type.toLowerCase().equals("l")){
+        
+            if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
+            int lIndex = contents.indexOf("l");
+            //EXTRACT OUTER COEFFICIENT (C)
+            if(lIndex > 0)
+                {
+                String coeffStr = contents.substring(0,lIndex);
+                if(coeffStr.equals("-")) c =-1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+                }
+            //EXTRACT INNER COEFFICIENT (K)
+            int start = contents.indexOf("(") + 1;
+            int end = contents.indexOf("x");
+            String kString = contents.substring(start,end);
+            if(kString.equals("")|| kString.equals("+")) k = 1;
+            else if(kString.equals("-")) k = -1;
+            else k = Double.parseDouble(kString);
+            //RETURN
+            upperBound = c * (upperBound * Math.log(k*upperBound)-upperBound);
+            lowerBound = c * (lowerBound * Math.log(k*lowerBound)-lowerBound);
+            double result = upperBound - lowerBound;
+            //RETURN
+            return "Output: " + result;
+            }
+        return "Output: Unsupported logarithmic input.";
+        }
 
         //POLYNOMIAL CALCULATION
         if(type.toLowerCase().equals("p")){
@@ -105,6 +131,7 @@ public class IntegralSolver {
     }    
         
         return "Output: Invalid. Please try again.";
+        
     }
 
     //INDEFINITE INTEGRAL CALCULATION
@@ -310,7 +337,6 @@ public class IntegralSolver {
         System.out.println(result);
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
-        
     }
     //prints the results of the indefinite integral
     if(deforIndef.toLowerCase().equals("i"))
@@ -332,7 +358,6 @@ public class IntegralSolver {
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
     }
-    else System.out.println("Sorry! That is invalid. Please try again.");
     scan.close();
     }
 }
