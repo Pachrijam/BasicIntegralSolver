@@ -56,8 +56,94 @@ public class IntegralSolver {
     }
 
         //TRIG-BASED CALCULATION
-        if(type.toLowerCase().equals("t")){}
+        if(type.toLowerCase().equals("t")){
+        //STANDARD TRIG FUNCTIONS
+        if(contents.equals("cos(x)")){
+        upperBound = Math.sin(upperBound);
+        lowerBound = Math.sin(lowerBound);
+        return "Output: " + (upperBound - lowerBound);    
+        }
+        if(contents.equals("sin(x)")){
+        upperBound = -Math.cos(upperBound);
+        lowerBound = -Math.cos(lowerBound);
+        return "Output: " + (upperBound - lowerBound);    
+        }
+        if(contents.equals("tan(x)")){
+        upperBound = -Math.log(Math.abs(Math.cos(upperBound)));
+        lowerBound = -Math.log(Math.abs(Math.cos(lowerBound)));
+        return "Output: " + (upperBound - lowerBound);    
+        }
 
+        //GENERAL CASE a*cos(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*cos\\([-]?\\d*\\.?\\d*x\\)")){
+        int cIndex = contents.indexOf("c");
+        if(cIndex>0)
+            {
+                String coeffStr = contents.substring(0,cIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            }
+        int start = contents.indexOf("(");
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start,end);
+
+        if(kString.equals("")||kString.equals("+")) k=1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+
+        double newCoeff = c/k;
+        upperBound = newCoeff * Math.sin(k*upperBound);
+        lowerBound = newCoeff * Math.sin(k*lowerBound);
+        return "Output: " + (upperBound-lowerBound);
+        }
+
+        //GENERAL CASE a*sin(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*sin\\([-]?\\d*\\.?\\d*x\\)")){
+        int sIndex = contents.indexOf("s");
+        if(sIndex>0)
+            {
+                String coeffStr = contents.substring(0,sIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            }
+        int start = contents.indexOf("(");
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start,end);
+
+        if(kString.equals("")||kString.equals("+")) k=1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+
+        double newCoeff = -c/k;
+        upperBound = newCoeff * Math.cos(k*upperBound);
+        lowerBound = newCoeff * Math.cos(k*lowerBound);
+        return "Output: " + (upperBound-lowerBound);
+        }
+
+        //GENERAL CASE a*tan(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*tan\\([-]?\\d*\\.?\\d*x\\)")){
+        int tIndex = contents.indexOf("t");
+        if(tIndex>0)
+            {
+                String coeffStr = contents.substring(0,tIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);
+            }
+        int start = contents.indexOf("(");
+        int end = contents.indexOf("x");
+        String kString = contents.substring(start,end);
+
+        if(kString.equals("")||kString.equals("+")) k=1;
+        else if(kString.equals("-")) k = -1;
+        else k = Double.parseDouble(kString);
+
+        double newCoeff = -c/k;
+        upperBound = newCoeff * Math.log(Math.abs(Math.cos(k*upperBound)));
+        lowerBound = newCoeff * Math.log(Math.abs(Math.cos(k*lowerBound)));
+        return "Output: " + (upperBound-lowerBound);
+        }
+        return "Output: Invalid trig input.";
+        }
         //LOGARITHMIC CALCULATION
         if(type.toLowerCase().equals("l")){
         
@@ -184,13 +270,13 @@ public class IntegralSolver {
         // TRIG BASED CALCULATION
         if(type.toLowerCase().equals("t")){
 
-    //STANDARD TRIG FUNCTIONS
-    if(contents.equals("cos(x)")) return "sin(x) + C";
-    if(contents.equals("sin(x)")) return "-cos(x) + C";
-    if(contents.equals("tan(x)")) return "-ln|cos(x)| + C";
+        //STANDARD TRIG FUNCTIONS
+        if(contents.equals("cos(x)")) return "sin(x) + C";
+        if(contents.equals("sin(x)")) return "-cos(x) + C";
+        if(contents.equals("tan(x)")) return "-ln|cos(x)| + C";
 
-    //GENERAL CASE: a*cos(kx)
-    if(contents.matches("[-]?\\d*\\.?\\d*cos\\([-]?\\d*\\.?\\d*x\\)")){
+        //GENERAL CASE: a*cos(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*cos\\([-]?\\d*\\.?\\d*x\\)")){
         int cIndex = contents.indexOf("c");
         //OUTER COEFFICIENT (c)
         if(cIndex > 0){
@@ -209,8 +295,8 @@ public class IntegralSolver {
         return "Output: " + (c / k) + "sin(" + k + "x) + C";
     }
 
-    //GENERAL CASE: a*sin(kx)
-    if(contents.matches("[-]?\\d*\\.?\\d*sin\\([-]?\\d*\\.?\\d*x\\)")){
+        //GENERAL CASE: a*sin(kx)
+        if(contents.matches("[-]?\\d*\\.?\\d*sin\\([-]?\\d*\\.?\\d*x\\)")){
         int sIndex = contents.indexOf("s");
         //OUTER COEFFICIENT (c)
         if(sIndex > 0){
