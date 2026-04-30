@@ -7,6 +7,7 @@ public class IntegralSolver {
         //INITIALIZED CONSTANT VARIABLES
         double c = 1;
         double k = 1;
+        type = type.toLowerCase();
         //N FOR POLYNOMIAL INTEGRATION
         int n = 1;
         
@@ -16,14 +17,14 @@ public class IntegralSolver {
         if(lowerBound == upperBound){return "Output: 0";}
         
         //CONSTANT CALCULATION 
-        if(type.toLowerCase().equals("c")){
+        if(type.equals("c")){
             double numConstant = Double.parseDouble(contents);
             double constantSum = numConstant*upperBound - numConstant*lowerBound;
             return "Output: " + constantSum;
         }
         
         //EXPONENTIAL CALCULATION
-        if(type.toLowerCase().equals("e")){
+        if(type.equals("e")){
             //GENERAL CASE
             if(contents.matches("[-]?\\d*\\.?\\d*e\\^\\([-]?\\d*\\.?\\d*x\\)")){
             int eIndex = contents.indexOf("e");
@@ -56,7 +57,7 @@ public class IntegralSolver {
     }
 
         //TRIG-BASED CALCULATION
-        if(type.toLowerCase().equals("t")){
+        if(type.equals("t")){
         //STANDARD TRIG FUNCTIONS
         if(contents.equals("cos(x)")){
         upperBound = Math.sin(upperBound);
@@ -145,7 +146,7 @@ public class IntegralSolver {
         return "Output: Invalid trig input.";
         }
         //LOGARITHMIC CALCULATION
-        if(type.toLowerCase().equals("l")){
+        if(type.equals("l")){
         
             if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
             int lIndex = contents.indexOf("l");
@@ -174,7 +175,7 @@ public class IntegralSolver {
         }
 
         //POLYNOMIAL CALCULATION
-        if(type.toLowerCase().equals("p")){
+        if(type.equals("p")){
 
         //CHECK FOR x
         if(contents.equals("x")){
@@ -219,20 +220,20 @@ public class IntegralSolver {
         return "Output: Invalid. Please try again.";
         
     }
-
     //INDEFINITE INTEGRAL CALCULATION
     public String indefiniteIntegral(String contents, String type)
     {
         //INITIALIZED CONSTANT VARIABLES
         double c = 1.0;
         double k = 1.0;
+        type = type.toLowerCase();
         //N FOR POLYNOMIAL INTEGRATION
         int n = 1;
         
         contents = contents.replace(" ", "");
         
         //EXPONENTIAL CALCULATION
-        if(type.toLowerCase().equals("e")){
+        if(type.equals("e")){
             
             //CHECK FOR e^x
             if(contents.equals("e^x")){return "Output: e^x + C";}
@@ -263,12 +264,12 @@ public class IntegralSolver {
     }
 
         //CONSTANT CALCULATION
-        if(type.toLowerCase().equals("c")){
+        if(type.equals("c")){
             return "Output: " + contents + "x + C";     
         }
 
         // TRIG BASED CALCULATION
-        if(type.toLowerCase().equals("t")){
+        if(type.equals("t")){
 
         //STANDARD TRIG FUNCTIONS
         if(contents.equals("cos(x)")) return "sin(x) + C";
@@ -335,7 +336,7 @@ public class IntegralSolver {
     }   
         
         //LOGARITHMIC CALCULATION
-        if(type.toLowerCase().equals("l")){
+        if(type.equals("l")){
             
             if(contents.matches("[-]?\\d*\\.?\\d*ln\\([-]?\\d*\\.?\\d*x\\)")){
             int lIndex = contents.indexOf("l");
@@ -361,7 +362,7 @@ public class IntegralSolver {
         }
 
         //POLYNOMIAL CALCULATION
-        if(type.toLowerCase().equals("p")){
+        if(type.equals("p")){
         //CHECK FOR X, X^(-1)
         if(contents.equals("x")){return "Output: (1/2)x^2 + C";}
         if(contents.equals("x^(-1)")){return "Output: ln|x| + C";}
@@ -396,12 +397,14 @@ public class IntegralSolver {
     }
     //MAIN       
     public static void main(String[] args) throws Exception {
-    
+
     Scanner scan = new Scanner(System.in);
     System.out.print("Hello! Welcome to Integral Solver!\n----------------------------------------------------------------\nEnter \'D\' for definite integral or \'I\' for indefinite integral: ");
     String deforIndef = scan.nextLine();
+    deforIndef = deforIndef.toLowerCase();
+    
     //prints results of the definite integral
-    if(deforIndef.toLowerCase().equals("d"))
+    if(deforIndef.equals("d"))
     {
         System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
@@ -426,7 +429,7 @@ public class IntegralSolver {
         }
     }
     //prints the results of the indefinite integral
-    else if(deforIndef.toLowerCase().equals("i"))
+    else if(deforIndef.equals("i"))
     {
         System.out.print("Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: ");
         String type = scan.nextLine();
