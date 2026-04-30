@@ -15,7 +15,7 @@ A command-line application written in Java that computes both **definite** and *
   * Logarithmic functions
   * Polynomial expressions
   * Constant values
-* Implements general integration rules (e.g., chain rule, power rule)
+* Implements general integration rules (e.g., chain rule, power rule, integration by parts...)
 * Includes basic input validation for unsupported formats
 
 ---
@@ -53,12 +53,12 @@ java IntegralSolver
 
 Upon running the program, the user is prompted to:
 
-1. Select the type of integral:
+1. Select the type of integral (case-insensitive):
 
    * `D` for definite integral
    * `I` for indefinite integral
 
-2. Specify the function category:
+2. Specify the function category (case-insensitive):
 
    * `e` (Exponential)
    * `t` (Trigonometric)
@@ -80,8 +80,10 @@ Upon running the program, the user is prompted to:
 **User Input:**
 
 ```text
+Hello! Welcome to Integral Solver!
+----------------------------------------------------------------
 Enter 'D' for definite integral or 'I' for indefinite integral: D
-Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: t
+Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: T
 Enter lower bound: 0
 Enter upper bound: 3.1415926535
 Enter the integrand with respect to 'x': sin(x)
@@ -104,7 +106,9 @@ Thank you for using Integral Solver!
 **User Input:**
 
 ```text
-Enter 'D' for definite integral or 'I' for indefinite integral: I
+Hello! Welcome to Integral Solver!
+----------------------------------------------------------------
+Enter 'D' for definite integral or 'I' for indefinite integral: i
 Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: p
 Enter the integrand with respect to 'x': 3x^(2)
 ```
@@ -114,7 +118,7 @@ Enter the integrand with respect to 'x': 3x^(2)
 ```text
 ----------------------------------------------------------------
 Input: Indefinite integral of 3x^(2) dx
-Output: 1x^3 + C
+Output: 1x^(3) + C
 ----------------------------------------------------------------
 Thank you for using Integral Solver!
 ```
@@ -125,20 +129,19 @@ Thank you for using Integral Solver!
 
 | Function Type | Example Inputs                 |
 | ------------- | ------------------------------ |
-| Exponential   | `e^x`, `2e^(3x)`               |
+| Exponential   | `e^x`, `2e^(3x)`, `-3e^(-4x)`  |
 | Trigonometric | `sin(x)`, `3cos(2x)`, `tan(x)` |
-| Logarithmic   | `ln(x)`, `2ln(3x)`             |
+| Logarithmic   | `ln(x)`, `2ln(3x)`, `-5ln(x)`  |
 | Polynomial    | `x`, `4x^(3)`, `x^(-1)`        |
-| Constant      | `5`, `-3`                      |
+| Constant      | `5`, `-3`, `67`                |
 
 ---
 
 ## Limitations
 
-* Input must strictly follow supported formats
+* Input must strictly follow supported formats (will return error message)
 * Limited trigonometric coverage (currently excludes sec, csc, cot)
-* Outputs are not algebraically simplified
-* No graphical user interface (CLI only)
+* Outputs are not algebraically simplified (decimal form)
 
 ---
 
@@ -148,7 +151,6 @@ Thank you for using Integral Solver!
 * Improve expression parsing for more flexible input formats
 * Implement symbolic simplification
 * Enhance error handling and validation
-* Develop a graphical user interface
 
 ---
 
