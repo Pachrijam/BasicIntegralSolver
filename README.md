@@ -130,7 +130,7 @@ Thank you for using Integral Solver!
 | Function Type | Example Inputs                 |
 | ------------- | ------------------------------ |
 | Exponential   | `e^x`, `2e^(3x)`, `-3e^(-4x)`  |
-| Trigonometric | `sin(x)`, `3cos(2x)`, `tan(x)` |
+| Trigonometric | `sin(x)`, `3cos(-2x)`, `tan(x)`|
 | Logarithmic   | `ln(x)`, `2ln(3x)`, `-5ln(x)`  |
 | Polynomial    | `x`, `4x^(3)`, `x^(-1)`        |
 | Constant      | `5`, `-3`, `67`                |
