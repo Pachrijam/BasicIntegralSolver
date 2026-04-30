@@ -73,7 +73,7 @@ Upon running the program, the user is prompted to:
 
 ---
 
-## Example Usage (Based on Actual Output Format)
+## Example Usage
 
 ### Definite Integral Example
 
