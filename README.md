@@ -1,4 +1,4 @@
-# Basic Integral Solver (Java)
+# Java Integral Solver
 
 A command-line application written in Java that computes both **definite** and **indefinite integrals** for a variety of common mathematical functions. This project demonstrates the application of calculus rules alongside string parsing and pattern matching techniques in Java.
 
