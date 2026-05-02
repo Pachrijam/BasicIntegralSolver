@@ -272,9 +272,9 @@ public class IntegralSolver {
         if(type.equals("t")){
 
         //STANDARD TRIG FUNCTIONS
-        if(contents.equals("cos(x)")) return "sin(x) + C";
-        if(contents.equals("sin(x)")) return "-cos(x) + C";
-        if(contents.equals("tan(x)")) return "-ln|cos(x)| + C";
+        if(contents.equals("cos(x)")) return "Output: sin(x) + C";
+        if(contents.equals("sin(x)")) return "Output: -cos(x) + C";
+        if(contents.equals("tan(x)")) return "Output: -ln|cos(x)| + C";
 
         //GENERAL CASE: a*cos(kx)
         if(contents.matches("[-]?\\d*\\.?\\d*cos\\([-]?\\d*\\.?\\d*x\\)")){
@@ -398,11 +398,11 @@ public class IntegralSolver {
     //CHECK UPPERBOUND FOR PI
     public double convertupperBound(String upperBound)
     {
-        if(upperBound.equals("pi"))
+        if(upperBound.toLowerCase().equals("pi"))
         {
             return Math.PI;
         }
-        if(upperBound.equals("-pi"))
+        if(upperBound.toLowerCase().equals("-pi"))
         {
             return -Math.PI;
         }
@@ -418,11 +418,11 @@ public class IntegralSolver {
     //CHECK LOWERBOUND FOR PI
     public double convertlowerBound(String lowerBound)
     {
-        if(lowerBound.equals("pi"))
+        if(lowerBound.toLowerCase().equals("pi"))
         {
             return Math.PI;
         }
-        if(lowerBound.equals("-pi"))
+        if(lowerBound.toLowerCase().equals("-pi"))
         {
             return -Math.PI;
         }
