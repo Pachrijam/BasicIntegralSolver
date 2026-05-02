@@ -85,7 +85,7 @@ Hello! Welcome to Integral Solver!
 Enter 'D' for definite integral or 'I' for indefinite integral: D
 Is your equation Exponential (e), Trig-based (t), Logarithmic (l), Polynomial (p), or a Constant (c) ?: T
 Enter lower bound: 0
-Enter upper bound: 3.1415926535
+Enter upper bound: pi
 Enter the integrand with respect to 'x': sin(x)
 ```
 
