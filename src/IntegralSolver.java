@@ -402,6 +402,10 @@ public class IntegralSolver {
         {
             return Math.PI;
         }
+        if(upperBound.equals("-pi"))
+        {
+            return -Math.PI;
+        }
         else if(upperBound.matches("[-]?\\d*\\.?\\d+"))
         {
             return Double.parseDouble(upperBound);
@@ -417,6 +421,10 @@ public class IntegralSolver {
         if(lowerBound.equals("pi"))
         {
             return Math.PI;
+        }
+        if(lowerBound.equals("-pi"))
+        {
+            return -Math.PI;
         }
         else if(lowerBound.matches("[-]?\\d*\\.?\\d+"))
         {
