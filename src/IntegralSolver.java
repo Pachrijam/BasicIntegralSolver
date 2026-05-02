@@ -395,10 +395,43 @@ public class IntegralSolver {
 
         return "Output: Invalid. Please try again.";
     }
+    //CHECK UPPERBOUND FOR PI
+    public double convertupperBound(String upperBound)
+    {
+        if(upperBound.equals("pi"))
+        {
+            return Math.PI;
+        }
+        else if(upperBound.matches("[-]?\\d*\\.?\\d+"))
+        {
+            return Double.parseDouble(upperBound);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid upper bound: " + upperBound);
+        }    
+    }
+    //CHECK LOWERBOUND FOR PI
+    public double convertlowerBound(String lowerBound)
+    {
+        if(lowerBound.equals("pi"))
+        {
+            return Math.PI;
+        }
+        else if(lowerBound.matches("[-]?\\d*\\.?\\d+"))
+        {
+            return Double.parseDouble(lowerBound);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid upper bound: " + lowerBound);
+        }
+    }
     //MAIN       
     public static void main(String[] args) throws Exception {
 
     Scanner scan = new Scanner(System.in);
+    IntegralSolver solver = new IntegralSolver();
     System.out.print("Hello! Welcome to Integral Solver!\n----------------------------------------------------------------\nEnter \'D\' for definite integral or \'I\' for indefinite integral: ");
     String deforIndef = scan.nextLine();
     deforIndef = deforIndef.toLowerCase();
@@ -415,15 +448,14 @@ public class IntegralSolver {
         else
         {
         System.out.print("Enter lower bound: ");
-        double lowerBound = scan.nextDouble(); 
+        String lowerBound = scan.nextLine(); 
         System.out.print("Enter upper bound: ");
-        double upperBound = scan.nextDouble();
-        scan.nextLine();
+        String upperBound = scan.nextLine();
+        
         System.out.print("Enter the integrand with respect to \'x\': ");
         String contents = scan.nextLine();
         System.out.println("----------------------------------------------------------------\nInput: Definite integral of " + contents + " dx, from " + lowerBound + " to " + upperBound);
-        IntegralSolver solver = new IntegralSolver();
-        String result = solver.definiteIntegral(lowerBound,upperBound,contents,type);
+        String result = solver.definiteIntegral(solver.convertupperBound(upperBound), solver.convertlowerBound(lowerBound), contents,type);
         System.out.println(result);
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
@@ -442,7 +474,6 @@ public class IntegralSolver {
         System.out.print("Enter the integrand with respect to \'x\': ");
         String contents = scan.nextLine();
         System.out.println("----------------------------------------------------------------\nInput: Indefinite integral of " + contents + " dx");
-        IntegralSolver solver = new IntegralSolver();
         String result = solver.indefiniteIntegral(contents,type);
         System.out.println(result);
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
