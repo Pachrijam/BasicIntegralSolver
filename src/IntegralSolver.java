@@ -406,6 +406,19 @@ public class IntegralSolver {
         {
             return -Math.PI;
         }
+        else if(upperBound.matches("[-]?\\d*\\.?\\d+pi"))
+        {
+            double c = 1;
+            int piIndex = upperBound.indexOf("pi");
+            if(piIndex > 0)
+            {
+                String coeffStr = upperBound.substring(0, piIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);    
+            }
+            if(piIndex == 0) c = 1;
+            return c * Math.PI;
+        }
         else if(upperBound.matches("[-]?\\d*\\.?\\d+"))
         {
             return Double.parseDouble(upperBound);
@@ -425,6 +438,19 @@ public class IntegralSolver {
         if(lowerBound.toLowerCase().equals("-pi"))
         {
             return -Math.PI;
+        }
+        else if(lowerBound.matches("[-]?\\d*\\.?\\d+pi"))
+        {
+            double c = 1;
+            int piIndex = lowerBound.indexOf("pi");
+            if(piIndex > 0)
+            {
+                String coeffStr = lowerBound.substring(0, piIndex);
+                if(coeffStr.equals("-")) c = -1;
+                else if(!coeffStr.equals("")) c = Double.parseDouble(coeffStr);    
+            }
+            if(piIndex == 0) c = 1;
+            return c * Math.PI;
         }
         else if(lowerBound.matches("[-]?\\d*\\.?\\d+"))
         {
@@ -463,7 +489,7 @@ public class IntegralSolver {
         System.out.print("Enter the integrand with respect to \'x\': ");
         String contents = scan.nextLine();
         System.out.println("----------------------------------------------------------------\nInput: Definite integral of " + contents + " dx, from " + lowerBound + " to " + upperBound);
-        String result = solver.definiteIntegral(solver.convertupperBound(upperBound), solver.convertlowerBound(lowerBound), contents,type);
+        String result = solver.definiteIntegral(solver.convertupperBound(lowerBound), solver.convertlowerBound(upperBound), contents,type);
         System.out.println(result);
         System.out.println("----------------------------------------------------------------\nThank you for using Integral Solver!");
         }
